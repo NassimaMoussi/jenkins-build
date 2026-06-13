@@ -10,10 +10,16 @@ node {
     }
 
     stage('Run image') {
-        docker.image('nassima/nginx').withRun('-p 80:80') { c ->
-            sh 'docker ps'
-            sh 'sleep 10'
-            sh 'curl http://localhost:80'
-        }
+    	docker.image('nassima/nginx').withRun('-p 8081:80') { c ->
+        	sh 'docker ps'
+        	sh 'sleep 10'
+        	sh 'curl http://localhost:8081'
     }
 }
+      
+          
+         
+         
+        }
+    
+
