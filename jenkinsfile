@@ -9,23 +9,14 @@ node {
         app = docker.build("nassima/nginx")
     }
 
-   docker.image('nassima/nginx').withRun('-p 8081:80') { c ->
+    stage('Run image') {
+    	docker.image('nassima/nginx').withRun('-p 8081:80') { c ->
 
-        sh 'docker ps'
+        	sh 'docker ps'
 
-        sh '''
-        for i in $(seq 1 20); do
-            if curl -fs http://localhost:8081; then
-                echo "NGINX OK"
-                exit 0
-            fi
+        	sleep 5
 
-            echo "waiting nginx..."
-            sleep 2
-        done
-
-        echo "NGINX NOT READY"
-        exit 1
-        '''
+        	sh 'curl -f http://localhost:8081'
     }
-}    
+} 
+}   
