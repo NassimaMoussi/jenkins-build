@@ -12,28 +12,16 @@ node {
             app = docker.build("nassima/nginx")
         }
 
-        stage('Run image') {
-
-            sh '''
-                docker run -d -p 8081:80 --name nginx_test nassima/nginx
-
-                echo "Waiting for nginx..."
-
-                for i in $(seq 1 30); do
-                    if curl -f http://localhost:8081; then
-                        echo "Nginx is UP"
-                        exit 0
-                    fi
-
-                    echo "Not ready yet... attempt $i"
-                    sleep 2
-                done
-
-                echo "Nginx failed"
-                docker logs nginx_test
-                exit 1
-            '''
-        }
+       stage('Run image') {
+       	steps {
+        	sh '''
+        	docker rm -f nginx_test || true
+        	docker run -d -p 8081:80 --name nginx_test nassima/nginx
+        	sleep 5
+        	curl -f http://127.0.0.1:8081
+        	'''
+    }
+}
 
     } finally {
         sh 'docker rm -f nginx_test || true'
