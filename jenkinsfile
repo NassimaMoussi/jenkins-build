@@ -15,6 +15,7 @@ node {
         stage('Run image') {
             sh '''
             docker rm -f nginx_test || true
+            docker ps
             docker run -d -p 8081:80 --name nginx_test nassima/nginx
             sleep 5
             curl -f http://127.0.0.1:8081
